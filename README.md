@@ -13,10 +13,10 @@ docker build --rm -t msconvertgui .
 ```
 3. Allow local X11 connections from root
 ```
-xauth +local:root
+xhost +local:root
 ```
-
 4. Run the container
 ```
 docker run -it --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" -v $HOME:/data:rw msconvertgui
 ```
+Substitute `$HOME` with the directory which holds your data. The directory is mounted at /date in your container, which is accessible as Z:\data in MSConvertGUI.
