@@ -22,15 +22,17 @@ docker run --rm -v /tmp/.X11-unix:/tmp/.X11-unix:rw -v $HOME:/data:rw msconvertg
 Substitute `$HOME` with the directory holding your data. The directory is mounted at /data in your container, which is accessible as Z:\data in MSConvertGUI.
 
 
-## Testing commandline msconvert.exe (which fails on Thermo data)
+## Testing commandline msconvert.exe (which fails on Thermo RAW data)
 This container can be used in a similar way to test the msconvert.exe program. A suitable command would be
 ```
-docker run --rm -v /tmp/.X11-unix:/tmp/.X11-unix:rw -v $HOME:/data:rw msconvertgui /bin/bash -c "cd /data; wine msconvert small.RAW"
+docker run --rm -v /tmp/.X11-unix:/tmp/.X11-unix:rw -v $HOME:/data:rw \
+  msconvertgui /bin/bash -c "cd /data; wine msconvert small.RAW"
 ```
 if your data file `small.RAW` is directly in the exposed folder.
 
 Another option is of course to enter a interactive shell with
 ```
-docker run -ti -v /tmp/.X11-unix:/tmp/.X11-unix:rw -v /scratch/rmeier/scratch/container-pwiz:/data:rw -ti msconvertgui /bin/bash
+docker run -ti -v /tmp/.X11-unix:/tmp/.X11-unix:rw -v $HOME::/data:rw \
+  msconvertgui /bin/bash
 ```
 and issue a `wine msconvert <data_file>` manually.
