@@ -19,4 +19,4 @@ xhost +local:root
 ```
 docker run -v /tmp/.X11-unix:/tmp/.X11-unix:rw -v $HOME:/data:rw msconvertgui
 ```
-Substitute `$HOME` with the directory which holds your data. The directory is mounted at /date in your container, which is accessible as Z:\data in MSConvertGUI.
+Substitute `$HOME` with the directory which holds your data. The directory is mounted at /data in your container, which is accessible as Z:\data in MSConvertGUI.
