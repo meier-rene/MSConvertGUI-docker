@@ -8,9 +8,9 @@ RUN apt-get update && \
       /etc/apt/sources.list.d/winehq.list && \
     wget http://dl.winehq.org/wine-builds/Release.key -qO- | apt-key add - && \
     apt-get update && \
-    apt-get -y install \
+    apt-get -y --install-recommends install \
       bzip2 \
-      winehq-staging \
+      winehq-stable \
       winbind \
       xvfb \
       && \
@@ -25,6 +25,7 @@ RUN apt-get update && \
       && \
     wget https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks \
       -O /usr/local/bin/winetricks && chmod +x /usr/local/bin/winetricks
+ENV WINEARCH win32
 WORKDIR /root/
 ADD waitonprocess.sh /root/waitonprocess.sh
 RUN chmod +x waitonprocess.sh
