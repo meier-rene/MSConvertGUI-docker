@@ -1,18 +1,19 @@
-FROM i386/debian:jessie-backports
+FROM i386/debian:stretch-backports
 # we need wget, bzip2, wine from winehq, 
 # xvfb to fake X11 for winetricks during installation,
 # and winbind because wine complains about missing 
 RUN apt-get update && \
-    apt-get -y install wget && \
-    echo "deb http://dl.winehq.org/wine-builds/debian/ jessie main" >> \
+    apt-get -y install wget gnupg && \
+    echo "deb http://dl.winehq.org/wine-builds/debian/ stretch main" >> \
       /etc/apt/sources.list.d/winehq.list && \
     wget http://dl.winehq.org/wine-builds/Release.key -qO- | apt-key add - && \
     apt-get update && \
     apt-get -y --install-recommends install \
       bzip2 \
-      winehq-stable \
+      winehq-stable=2.0* \
       winbind \
       xvfb \
+      cabextract \
       && \
     apt-get -y clean && \
     rm -rf \
@@ -32,10 +33,11 @@ RUN chmod +x waitonprocess.sh
 # wineserver needs to shut down properly!!! 
 ENV WINEDEBUG -all,err+all
 RUN winetricks -q win7 && ./waitonprocess.sh wineserver
-RUN xvfb-run winetricks -q vcrun2008 dotnet40 && ./waitonprocess.sh wineserver
+RUN xvfb-run winetricks -q vcrun2008 dotnet452 && ./waitonprocess.sh wineserver
 # download ProteoWizard and extract it to C:\pwiz
+# https://teamcity.labkey.org/repository/download/bt36/421524:id/pwiz-bin-windows-x86-vc120-release-3_0_10577.tar.bz2
 RUN mkdir /root/.wine/drive_c/pwiz && \
-    wget https://teamcity.labkey.org/repository/download/bt36/421524:id/pwiz-bin-windows-x86-vc120-release-3_0_10577.tar.bz2?guest=1 -qO- | \
+    wget https://teamcity.labkey.org/repository/download/bt36/503707:id/pwiz-bin-windows-x86-vc120-release-3_0_11505.tar.bz2?guest=1 -qO- | \
       tar --directory=/root/.wine/drive_c/pwiz -xj
 # put C:\pwiz on the Windows search path
 ENV WINEPATH "C:\pwiz"
