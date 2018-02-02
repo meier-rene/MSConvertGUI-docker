@@ -10,7 +10,7 @@ RUN apt-get update && \
     apt-get update && \
     apt-get -y --install-recommends install \
       bzip2 \
-      winehq-stable=2.0* \
+      winehq-stable=3.0* \
       winbind \
       xvfb \
       cabextract \
@@ -35,9 +35,9 @@ ENV WINEDEBUG -all,err+all
 RUN winetricks -q win7 && ./waitonprocess.sh wineserver
 RUN xvfb-run winetricks -q vcrun2008 dotnet452 && ./waitonprocess.sh wineserver
 # download ProteoWizard and extract it to C:\pwiz
-# https://teamcity.labkey.org/repository/download/bt36/421524:id/pwiz-bin-windows-x86-vc120-release-3_0_10577.tar.bz2
+# https://teamcity.labkey.org/repository/download/bt36/538732:id/pwiz-bin-windows-x86-vc120-release-3_0_11748.tar.bz2
 RUN mkdir /root/.wine/drive_c/pwiz && \
-    wget https://teamcity.labkey.org/repository/download/bt36/503707:id/pwiz-bin-windows-x86-vc120-release-3_0_11505.tar.bz2?guest=1 -qO- | \
+    wget https://teamcity.labkey.org/repository/download/bt36/538732:id/pwiz-bin-windows-x86-vc120-release-3_0_11748.tar.bz2?guest=1 -qO- | \
       tar --directory=/root/.wine/drive_c/pwiz -xj
 # put C:\pwiz on the Windows search path
 ENV WINEPATH "C:\pwiz"
